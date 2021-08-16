@@ -49,6 +49,10 @@ class DatabaseConfig
         self::$id++;
     }
 
+    public function getSomething($something){
+        return $this->$something;
+     }
+
 }
 
 class DatabaseConnection
@@ -105,6 +109,9 @@ class Dialog
 
 $db_conf = array("databasetype" => "MySql", "databasename"=> "ICS","host"=>"billing.ics.global", "port"=>"3306", "username"=>"root", "password"=>"toor");
 $db_conf_object = new DatabaseConfig($db_conf);
+$ls = $db_conf_object->getSomething("host");
+var_dump($ls);
+die();
 DatabaseConnection::init($db_conf_object);
 $conf = DatabaseConnection::getConfig();
 
@@ -115,3 +122,4 @@ echo $dump;
 var_dump(function(){
     return "How could I forget? ";
 });
+
