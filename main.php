@@ -62,12 +62,12 @@ class DatabaseConnection
 {
     private static $dependentConfig;
     private static $injection_satisied = false;
-    public static function init($config)
+    public static function init(DatabaseConfig $config)
     {
-        if($config instanceof DatabaseConfig){
-            self::$dependentConfig = $config;
-            self::$injection_satisied = true;
-        }
+
+        self::$dependentConfig = $config;
+        self::$injection_satisied = true;
+
     }
 
     public static function getConfig(){
@@ -79,20 +79,18 @@ class DatabaseConnection
 
 class ConfigurationSaver
 {
-    public static function MakeDatabaseConfig($config)
+    public static function MakeDatabaseConfig(DatabaseConfig $config)
     {
         $fileName="db_conf";
-        if($config instanceof DatabaseConfig){
-            $config_json = json_encode(get_object_vars($config));
-            var_dump($config_json);
 
-            FileIO::createDir("config");
-            $path = "config/".$fileName.".".$config::$id.".conf";
-            FileIO::write($path, $config_json);
-            return $path;
-        } else {
-            return 0;
-        }
+        $config_json = json_encode(get_object_vars($config));
+        var_dump($config_json);
+
+        FileIO::createDir("config");
+        $path = "config/".$fileName.".".$config::$id.".conf";
+        FileIO::write($path, $config_json);
+        return $path;
+
     }
 }
 
