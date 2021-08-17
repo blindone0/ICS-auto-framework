@@ -85,11 +85,11 @@ class DatabaseConnection
     public static function conntect2db()
     {
         if(self::$injection_satisied){
-            $user = self::$dependentConfig->get('username');
-            $pass = self::$dependentConfig->get('password'); 
-            $host = self::$dependentConfig->get('host');
-            $db_type = self::$dependentConfig->get('databasetype');
-            $dbname  = self::$dependentConfig->get('databasename');
+            $user = self::$dependentConfig->username;
+            $pass = self::$dependentConfig->password; 
+            $host = self::$dependentConfig->host;
+            $db_type = self::$dependentConfig->databasetype;
+            $dbname  = self::$dependentConfig->databasename;
             $pdo_str = $db_type.":host=".$host.";dbname=".$dbname.";charset=utf8";
             $pdo = new PDO($pdo_str, $user, $pass);
             self::$connection = $pdo;
@@ -115,10 +115,12 @@ class ConfigurationSaver
 }
 
 $db_conf = array("databasetype" => "MySql", "databasename"=> "ICS","host"=>"billing.ics.global", "port"=>"3306", "username"=>"root", "password"=>"toor");
-$db_conf_object = new DatabaseConfig($db_conf);
+$db_conf1 = array("databasetype" => "mysql", "databasename"=> "laravel","host"=>"localhost", "port"=>"3306", "username"=>"root", "password"=>"");
+$db_conf_object = new DatabaseConfig($db_conf1);
 DatabaseConnection::init($db_conf_object);
 $conf = DatabaseConnection::getConfig();
-var_dump($conf);
 $file = ConfigurationSaver::MakeDatabaseConfig($conf);
-$dump = FileIO::read($file);
-echo $dump;
+//$dump = FileIO::read($file);
+
+$con = DatabaseConnection::conntect2db();
+var_dump($con);
