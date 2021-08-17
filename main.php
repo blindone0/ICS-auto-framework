@@ -28,30 +28,33 @@ class FileIO
 }
 
 class DatabaseConfig
-{
-    public $host;
-    public $port;
-    public $username;
-    public $password;
-    public $databasetype;
-    public $databasename;
-
+{    
     public static $id = 0;
 
-    public function __construct($array)
+    public $data = [
+        'host' => '',
+        'port' => '',
+        'username' => '',
+        'password' => '',
+        'databasetype' => '',
+        'databasename' => ''
+
+    ];
+
+    public function __set($key, $value)
     {
-        $this->databasetype = $array['databasetype'];
-        $this->databasename = $array['databasename'];
-        $this->host = $array['host'];
-        $this->port = $array['port'];
-        $this->username = $array['username'];
-        $this->password = $array['password'];
-        self::$id++;
+        $this->data[$key] = $value;
     }
 
-    public function getSomething($something){
-        return $this->$something;
-     }
+    public function __construct(Array $array)
+    {
+
+        foreach($array as $key => $value)
+        {
+            $this->$key = $value;
+        }
+        self::$id++;
+    }
 
 }
 
@@ -109,8 +112,8 @@ class Dialog
 
 $db_conf = array("databasetype" => "MySql", "databasename"=> "ICS","host"=>"billing.ics.global", "port"=>"3306", "username"=>"root", "password"=>"toor");
 $db_conf_object = new DatabaseConfig($db_conf);
-$ls = $db_conf_object->getSomething("host");
-var_dump($ls);
+
+var_dump($db_conf_object);
 die();
 DatabaseConnection::init($db_conf_object);
 $conf = DatabaseConnection::getConfig();
